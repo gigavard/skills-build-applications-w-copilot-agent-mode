@@ -1,12 +1,17 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { connectDB } from './db';
+import { connectDB, disconnectDB } from './db';
+import usersRouter from './routes/users';
+import teamsRouter from './routes/teams';
+import activitiesRouter from './routes/activities';
+import leaderboardRouter from './routes/leaderboard';
+import workoutsRouter from './routes/workouts';
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 8000;
+const PORT = 8000;
 
 // Middleware
 app.use(cors());
@@ -29,13 +34,20 @@ app.get('/health', (_req, res) => {
   });
 });
 
-// Placeholder for API routes (will be under /api/)
+// API status endpoint
 app.get('/api/status', (_req, res) => {
   res.status(200).json({
     status: 'ok',
     message: 'Octofit Tracker API endpoints ready',
   });
 });
+
+// Required API route handlers
+app.use('/api/users', usersRouter);
+app.use('/api/teams', teamsRouter);
+app.use('/api/activities', activitiesRouter);
+app.use('/api/leaderboard', leaderboardRouter);
+app.use('/api/workouts', workoutsRouter);
 
 // Start server
 const startServer = async (): Promise<void> => {
@@ -63,7 +75,7 @@ startServer();
 // Graceful shutdown
 process.on('SIGINT', async () => {
   console.log('\nShutting down gracefully...');
-  await connectDB().then(() => {
+  await disconnectDB().then(() => {
     process.exit(0);
   }).catch(() => {
     process.exit(1);
