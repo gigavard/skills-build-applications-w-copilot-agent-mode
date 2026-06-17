@@ -11,6 +11,7 @@ import workoutsRouter from './routes/workouts';
 dotenv.config();
 
 const app = express();
+// Keep API service on the fixed port required by the exercise workflow.
 const PORT = 8000;
 
 // Middleware
