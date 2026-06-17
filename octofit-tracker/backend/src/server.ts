@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { connectDB, disconnectDB } from './db';
+import { connectDB, disconnectDB } from './config/database';
 import usersRouter from './routes/users';
 import teamsRouter from './routes/teams';
 import activitiesRouter from './routes/activities';

@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
-const db_1 = require("./db");
+const database_1 = require("./config/database");
 const users_1 = __importDefault(require("./routes/users"));
 const teams_1 = __importDefault(require("./routes/teams"));
 const activities_1 = __importDefault(require("./routes/activities"));
@@ -50,7 +50,7 @@ app.use('/api/workouts', workouts_1.default);
 const startServer = async () => {
     try {
         // Connect to MongoDB
-        await (0, db_1.connectDB)();
+        await (0, database_1.connectDB)();
         // Start listening
         app.listen(PORT, () => {
             console.log(`\n🚀 Octofit Backend Server`);
@@ -70,7 +70,7 @@ startServer();
 // Graceful shutdown
 process.on('SIGINT', async () => {
     console.log('\nShutting down gracefully...');
-    await (0, db_1.disconnectDB)().then(() => {
+    await (0, database_1.disconnectDB)().then(() => {
         process.exit(0);
     }).catch(() => {
         process.exit(1);

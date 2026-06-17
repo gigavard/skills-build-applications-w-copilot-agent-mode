@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const db_1 = require("../db");
+const database_1 = require("../config/database");
 const team_1 = __importDefault(require("../models/team"));
 const user_1 = __importDefault(require("../models/user"));
 const activity_1 = __importDefault(require("../models/activity"));
@@ -12,7 +12,7 @@ const workout_1 = __importDefault(require("../models/workout"));
 const seedDatabase = async () => {
     try {
         console.log('Seed the octofit_db database with test data');
-        await (0, db_1.connectDB)();
+        await (0, database_1.connectDB)();
         await Promise.all([
             team_1.default.deleteMany({}),
             user_1.default.deleteMany({}),
@@ -229,7 +229,7 @@ const seedDatabase = async () => {
         process.exitCode = 1;
     }
     finally {
-        await (0, db_1.disconnectDB)();
+        await (0, database_1.disconnectDB)();
     }
 };
 void seedDatabase();
